@@ -3,9 +3,7 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="ExtentReport.TestCase1"/>
-      <class name="ExtentReport.Testcase2"/>
-      <class name="ExtentReport.Testcase3"/>
+      <class name="com.crm.autodesk.contact.CreateContact"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
