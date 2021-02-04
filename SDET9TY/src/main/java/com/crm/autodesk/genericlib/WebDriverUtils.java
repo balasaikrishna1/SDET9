@@ -1,0 +1,125 @@
+package com.crm.autodesk.genericlib;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * 
+ * @author baaluu
+ *
+ */
+public class WebDriverUtils {
+	/**
+	    *  used to select the option from the dropdwon based on visible text
+	    * @param element
+	    * @param visibleText
+	    */
+		public void select(WebElement element, String visibleText) {
+			Select sel = new Select(element);
+			sel.selectByVisibleText(visibleText);
+			
+		}
+		/**
+		 * used to select the option from the dropdwon based on position / index (index always start from 0)
+		 * @param element
+		 * @param index
+		 */
+		public void select(WebElement element, int index) {
+			Select sel = new Select(element);
+			sel.selectByIndex(index);
+			
+		}
+		
+		/**
+		 *  used to wait for Element to be clickable in GUI  & check for the elemnet for every 500 milisecond , 
+		 * @param driver
+		 * @param elemnet
+		 */
+		public void waitforElementToBeClickable(WebDriver driver , WebElement element) {
+			 WebDriverWait wait = new WebDriverWait(driver, 20);
+			 wait.until(ExpectedConditions.elementToBeClickable(element));
+		}
+		/**
+		 * wait for DOM document to be load before finding any elemnet in GUI
+		 * @param driver
+		 */
+		public void waitForHTMLDOM(WebDriver driver) {
+			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			
+		}
+		
+		/**
+		 * SWitch to Requried Window based on title Paremeter
+		 * @param driver
+		 * @param partailWindowTitle
+		 */
+		public void swicthToWindow(WebDriver driver , String partailWindowTitle) {
+			  /*get all window session ID*/
+			   Set<String> set = driver.getWindowHandles();
+			   Iterator<String> it = set.iterator();
+			    
+			   while(it.hasNext()) {
+				   String winID = it.next();
+				   driver.switchTo().window(winID);
+				   String actTitle = driver.getTitle();
+				   if(actTitle.contains(partailWindowTitle)) {
+					   System.out.println("swicthed to actual winow");
+					   break;
+				   }
+			   }
+		}
+		/**
+		 * used to Switch to Alert Popup & click on OK button
+		 * @param driver
+		 */
+		public void alertOK(WebDriver driver) {
+			
+			driver.switchTo().alert().accept();
+		}
+		
+		/**
+		 * used to Switch to Alert Popup & click on cancel button
+		 * @param driver
+		 */
+	   public void alertCancel(WebDriver driver) {
+			
+			driver.switchTo().alert().dismiss();
+		}
+		
+		/**
+		 * used to take mouse cursor on expected element on the browser
+		 * @param driver
+		 * @param element
+		 */
+		public void moveToExpectedElemnet(WebDriver driver , WebElement element) {
+			Actions act = new Actions(driver);
+			act.moveToElement(element).perform();
+		}
+		
+		public void swictToFrame(WebDriver driver , int index) {
+			driver.switchTo().frame(index);
+		}
+		
+	   public void swictToFrame(WebDriver driver , WebElement element) {
+		   driver.switchTo().frame(element);
+		}
+	   
+	   public void swictToFrame(WebDriver driver , String id, String name) {
+		   WebElement fwb;
+		     if(id!=null) {
+		    	 driver.switchTo().frame(id);
+		     }else {
+		    	 driver.switchTo().frame(name);
+		     }
+		   
+		}
+	   
+}
